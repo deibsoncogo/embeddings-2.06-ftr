@@ -1,0 +1,23 @@
+{
+  "name": "embeddings-2.06-ftr",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node embeddings.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deibsoncogo/embeddings-2.06-ftr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deibsoncogo/embeddings-2.06-ftr/issues"
+  },
+  "homepage": "https://github.com/deibsoncogo/embeddings-2.06-ftr#readme",
+  "description": "",
+  "dependencies": {
+    "@huggingface/transformers": "^3.7.6"
+  }
+}
