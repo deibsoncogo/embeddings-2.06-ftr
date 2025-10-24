@@ -6,4 +6,7 @@ const embedder = await pipeline(
   { dtype: "q8"}
 )
 
-console.log("embedder =>", await embedder("oi tudo bem?"))
+console.log("embedder =>", await embedder(
+  "oi tudo bem?",
+  { pooling: "mean", normalize: true }
+))
