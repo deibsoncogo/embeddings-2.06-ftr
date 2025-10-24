@@ -1,4 +1,4 @@
-import { pipeline } from "@huggingface/transformers"
+import { cos_sim, pipeline } from "@huggingface/transformers"
 
 const embedder = await pipeline(
   "feature-extraction",
@@ -6,7 +6,12 @@ const embedder = await pipeline(
   { dtype: "q8"}
 )
 
-console.log("embedder =>", await embedder(
-  "oi tudo bem?",
-  { pooling: "mean", normalize: true }
+async function embedText(text) {
+  return embedder(text, { pooling: "mean", normalize: true })
+    .then(t => t.tolist()[0])
+}
+
+console.log("embedText =>", cos_sim(
+  await embedText("king"),
+  await embedText("man"),
 ))
