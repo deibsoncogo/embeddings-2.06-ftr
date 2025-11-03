@@ -1,4 +1,4 @@
-import { pipeline } from "@huggingface/transformers"
+import { cos_sim, pipeline } from "@huggingface/transformers"
 import fs from "fs"
 
 const embedder = await pipeline(
@@ -26,4 +26,20 @@ for(let i = 0; i < movies.length; i++) {
   movies[i]["embedding"] = embeddings[i]
 }
 
-console.log("movies =>", movies)
+const query = "A movie about space and aliens"
+
+const queryEmbedding = (await getEmbedding(query))[0]
+
+for (let movie of movies) {
+  movie["similarity"] = cos_sim(queryEmbedding, movie["embedding"])
+}
+
+movies.sort((a, b) => {
+  if (a.similarity > b.similarity){
+    return 1
+  } else {
+    return -1
+  }
+})
+
+console.log(movies)
