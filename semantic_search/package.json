@@ -4,6 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node semantic_search.js"
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.7.6"
   }
 }
