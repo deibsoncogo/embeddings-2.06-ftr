@@ -3,6 +3,9 @@
     "chromadb",
     "dtype",
     "huggingface",
+    "imdb",
+    "metadatas",
+    "mpst",
     "tolist",
     "Xenova"
   ]
