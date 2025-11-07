@@ -1,6 +1,6 @@
 import { ChromaClient } from "chromadb"
-import fs from "node:fs"
 import csv from "csv-parser"
+import fs from "node:fs"
 
 const chromaClient = new ChromaClient()
 
@@ -20,8 +20,7 @@ const ids = []
 const documents = []
 const metadatas = []
 
-
-fs.createReadStream("mpst_full_data.csv")
+fs.createReadStream("mpst-full-data.csv")
   .pipe(csv())
   .on("data", (row) => {
     const document = {
@@ -33,5 +32,21 @@ fs.createReadStream("mpst_full_data.csv")
     metadatas.push(document)
   })
   .on("end", async () => {
-    await collection.add({ ids, documents, metadatas})
+    let startIdx = 0
+
+    while (startIdx < ids.length) {
+      let endIdx = startIdx + 500
+
+      console.log(`Adding documents from ${startIdx} to ${endIdx}`)
+
+      await collection.add({
+        ids: ids.slice(startIdx, endIdx),
+        documents: documents.slice(startIdx, endIdx),
+        metadatas: metadatas.slice(startIdx, endIdx),
+      })
+
+      startIdx = endIdx
+    }
+
+    console.log("Done!")
   })
