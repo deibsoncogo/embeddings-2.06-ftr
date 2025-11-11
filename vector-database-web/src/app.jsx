@@ -1,6 +1,6 @@
 import { ChromaClient } from "chromadb"
-import { useEffect, useState } from "react"
 import { env } from "chromadb-default-embed"
+import { useEffect, useState } from "react"
 import './app.css'
 
 env.useBrowserCache = false
@@ -105,7 +105,7 @@ export function App() {
   const [chromaCollection, setChromaCollection] = useState(null)
 
   async function queryDatabase() {
-    console.log(await chromaCollection.query({ queryTexts: "a movie about space" }))
+    console.log(await chromaCollection.query({ queryTexts: ["a movie about space"] }))
   }
 
   useEffect(() => {
