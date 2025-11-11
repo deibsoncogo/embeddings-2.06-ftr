@@ -13,7 +13,7 @@ const metadatas = []
 fs.createReadStream("mpst-full-data.csv")
   .pipe(csv())
   .on("data", (row) => {
-      const document = { "title": row["title"], "tags": row["tags"], "synopsis": row["plot_synopsis"] }
+      const document = { "title": row["title"], "tags": row["tags"], "plot_synopsis": row["plot_synopsis"] }
 
       ids.push(row["imdb_id"])
       documents.push(JSON.stringify(document))
