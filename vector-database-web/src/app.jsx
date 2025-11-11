@@ -1,4 +1,10 @@
+import { ChromaClient } from "chromadb"
+import { useEffect, useState } from "react"
+import { env } from "chromadb-default-embed"
 import './app.css'
+
+env.useBrowserCache = false
+env.allowLocalModels = false
 
 const mockMovies = [
   {
@@ -83,7 +89,7 @@ function MovieCard({ title, tags, synopsis }) {
       justifyContent: "center",
       gap: 5
     }}>
-      {tags.map(tag => <MovieTag tag={tag} />)}
+      {tags.map((tag, index) => <MovieTag key={index} tag={tag} />)}
     </div>
 
     <div style={{
@@ -96,13 +102,30 @@ function MovieCard({ title, tags, synopsis }) {
 }
 
 export function App() {
+  const [chromaCollection, setChromaCollection] = useState(null)
+
+  async function queryDatabase() {
+    console.log(await chromaCollection.query({ queryTexts: "a movie about space" }))
+  }
+
+  useEffect(() => {
+    const initializeChroma = async () => {
+      const chromaClient = new ChromaClient()
+      const collection = await chromaClient.getOrCreateCollection({ name: "movies" })
+
+      setChromaCollection(collection)
+    }
+
+    initializeChroma()
+  }, [])
+
   return (
     <>
       <h1>Movie Recommender</h1>
 
       <div style={{ display: "flex", flexDirection: "column" }}>
         <textarea type="text" />
-        <button>Submit</button>
+        <button onClick={queryDatabase}>Submit</button>
       </div>
 
       <div className="movie-list" style={{
@@ -111,7 +134,7 @@ export function App() {
         flexDirection: "column",
         gap: 15,
       }}>
-        {mockMovies.map((movie => <MovieCard {...movie} />))}
+        {mockMovies.map(((movie, index) => <MovieCard key={index} {...movie} />))}
       </div>
     </>
   )
