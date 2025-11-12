@@ -1,51 +1,27 @@
 import { ChromaClient } from "chromadb"
 import { env } from "chromadb-default-embed"
 import { useEffect, useState } from "react"
-import './app.css'
+import "./app.css"
 
 env.useBrowserCache = false
 env.allowLocalModels = false
 
 function MovieTag({ tag }) {
-  return <div style={{
-    border: "1px solid grey",
-    padding: 5,
-    fontSize: 12,
-    borderRadius: 7,
-  }}>
-    {tag}
-  </div>
+  return <div className="movie-tag">{tag}</div>
 }
 
 function MovieCard({ title, tags, synopsis }) {
-  return <div className="movie-card" style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: 5,
-    border: "1px solid grey",
-    borderRadius: 10,
-    padding: "10px",
-    height: "250px"
-  }}>
-    <h2 style={{ margin: 0 }}>
-      {title}
-    </h2>
-
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      gap: 5
-    }}>
-      {tags.map((tag, index) => <MovieTag key={index} tag={tag} />)}
+  return (
+    <div className="movie-card">
+      <h2 className="movie-title">{title}</h2>
+      <div className="tag-container">
+        <div className="tag-holder">
+          {tags.map((tag, index) => <MovieTag key={index} tag={tag} />)}
+        </div>
+      </div>
+      <div className="synopsis">{synopsis}</div>
     </div>
-
-    <div style={{
-      overflow: "auto",
-      padding: 5,
-    }}>
-      {synopsis}
-    </div>
-  </div>
+  )
 }
 
 export function App() {
@@ -61,19 +37,19 @@ export function App() {
     try {
       const res = await chromaCollection.query({ queryTexts: [queryText] })
 
-    const movies = []
+      const movies = []
 
-    for (let i=0; i < res.ids[0].length; i++) {
-      movies.push({
-        id: res.ids[0][i],
-        distance: res.distances[0][i],
-        title: res.metadatas[0][i].title,
-        tags: res.metadatas[0][i].tags.split(", "),
-        synopsis: res.metadatas[0][i].synopsis,
-      })
-    }
+      for (let i = 0; i < res.ids[0].length; i++) {
+        movies.push({
+          id: res.ids[0][i],
+          distance: res.distances[0][i],
+          title: res.metadatas[0][i].title,
+          tags: res.metadatas[0][i].tags.split(", "),
+          synopsis: res.metadatas[0][i].synopsis,
+        })
+      }
 
-    setMovieList(movies)
+      setMovieList(movies)
     } catch (error) {
       console.error("error =>", error)
     } finally {
@@ -97,7 +73,7 @@ export function App() {
     <>
       <h1>Movie Recommender</h1>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div className="form-container">
         <textarea type="text" onChange={e => setQueryText(e.target.value)} />
 
         <button onClick={queryDatabase} disabled={!isConnected || isLoading}>
@@ -107,13 +83,8 @@ export function App() {
 
       {isLoading && <p>Loading...</p>}
 
-      <div className="movie-list" style={{
-        marginTop: "15px",
-        display: "flex",
-        flexDirection: "column",
-        gap: 15,
-      }}>
-        {movieList.map(((movie, index) => <MovieCard key={index} {...movie} />))}
+      <div className="movie-list">
+        {movieList.map((movie, index) => <MovieCard key={index} {...movie} />)}
       </div>
     </>
   )
