@@ -11,4 +11,32 @@ async function embedImg(imgs) {
   return imgEmbedder(imgs, { pooling: "cls", normalize: true }).then(t => t.tolist())
 }
 
-const images = fs.readSync("./train").map(f => "./train/" + f)
+const images = fs.readdirSync("./train").map(f => "./train/" + f)
+
+let startIdx = 0
+
+while (startIdx < images.length) {
+  let endIdx = startIdx + 2
+
+  console.log(`Embedding images from ${startIdx} to ${endIdx}`)
+
+  let imgsToEmbed = images.slice(startIdx, endIdx)
+
+  const embeddings = await embedImg(imgsToEmbed)
+
+  const output = []
+
+  for(let i = 0; i < embeddings.length; i++) {
+    output.push({
+      path: images[i + startIdx],
+      embedding: embeddings[i],
+    })
+  }
+
+  fs.writeFileSync(
+    `embeddings/embedding-${startIdx}.json`,
+    JSON.stringify(output)
+  )
+
+  startIdx = endIdx
+}

@@ -1,7 +1,6 @@
 {
-  "name": "",
+  "name": "nearest-neighbors",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "license": "AGPL-version-3.0",
@@ -10,22 +9,8 @@
     "node": ">= 14.0.0",
     "npm": ">= 6.0.0"
   },
-  "homepage": "",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "bugs": "",
-  "keywords": [],
-  "author": {
-    "name": "",
-    "email": "",
-    "url": ""
-  },
-  "contributors": [],
   "scripts": {
-    "dev": "",
-    "test": ""
+    "dev": "node create-embedding.js"
   },
   "dependencies": {
     "@huggingface/transformers": "^3.8.0"
