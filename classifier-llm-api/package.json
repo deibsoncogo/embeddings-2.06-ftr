@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node classifier.js"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^3.5.2"
+  }
+}
