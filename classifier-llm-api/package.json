@@ -8,6 +8,7 @@
   "dependencies": {
     "@google/genai": "^1.30.0",
     "@huggingface/transformers": "^3.5.2",
+    "cors": "^2.8.5",
     "express": "^5.2.1"
   }
 }
